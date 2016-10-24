@@ -36,15 +36,24 @@ def build_location(gem)
     ruby_expr
   end
 end
+
+def hash_from_gem_list(gem_list)
+  Hash[ (gem_list || []).collect { |v| [v['gem'], v] } ]
+end
+
+def override_gems(base, override)
+  result = {}
+  (base.keys + override.keys).uniq.each do |key|
+    result[key] = hash_from_gem_list(base[key]).merge(hash_from_gem_list(override[key]))
+  end
+  result
+end
 -%>
-<% groups = {} -%>
-<% (@configs['required'].keys + ((@configs['optional'] || {}).keys)).uniq.each do |key| -%>
-<%   groups[key] = (@configs['required'][key] || []) + ((@configs['optional'] || {})[key] || []) -%>
-<% end -%>
-<% -%>
-<% groups.each do |group, gems| -%>
+<% base = @configs['required'] -%>
+<% override = @configs['optional'] || {} -%>
+<% override_gems(base, override).each do |group, gems| -%>
 group <%= group %> do
-<%  gems.each do |gem| -%>
+<%  gems.each do |_,gem| -%>
   gem '<%= gem['gem'] %>'<%= build_location(gem) %>
 <%  end -%>
 end
