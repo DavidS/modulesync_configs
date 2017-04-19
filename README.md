@@ -1,6 +1,16 @@
 ModuleSync Configs
 ==================
 
+This branch of modulesync_configs contains a provisional multi-layer layout for addressing the different needs of `pdk new module` vs. `msync update`. It is intended to use the moduleroot+puppetlabs directories for `msync update`, while the moduleroot+new_module directories are for `pdk new module`. This structure will allow fine-grained sharing of content without diverging too far from the shareable commonalities.
+
+This is for (p)review only, as both pdk and msync do not work with this format yet.
+
+
+
+
+Original Docs
+=============
+
 This repository contains default configuration for
 [modulesync](http://github.com/puppetlabs/modulesync) for the Puppet Labs
 puppet modules. Changes to this repository should be synced with modulesync
